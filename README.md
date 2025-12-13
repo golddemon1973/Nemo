@@ -1,4 +1,4 @@
-![nemo](https://i.ibb.co/nqb4T0NW/Capture-d-cran-2025-12-12-201411.png)
+<img width="1483" height="1483" alt="Capture d&#39;écran 2025-12-12 201411" src="https://github.com/user-attachments/assets/867dbb28-d958-48f6-aac0-167ac885613f" />
 
 # Nemo
 A early and fast LuaU decompiler.
