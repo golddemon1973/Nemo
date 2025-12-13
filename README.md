@@ -31,9 +31,9 @@ Thanks to everyone that will, or has contributed to this project. Thank you.
 
 # Features
 
-✔️ -> Included
-🛠️ -> W.I.P
-❌ -> Not included
+✔️ -> Included <br />
+🛠️ -> W.I.P <br /> 
+❌ -> Not included <br />
 
 Functions: ✔️ <br />
 Upvalues: ❌ <br />
