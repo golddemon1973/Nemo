@@ -32,7 +32,7 @@ function VRL:GetRegisterValue(name)
 end
 
 function VRL:CleanRegister(name)
-	assert(self._register[name], "Attempt to clean nonexistent register")
+	assert(self._register[name], "Attempt to clean non existent register")
 	self._register[name].data.value = nil
 end
 
@@ -70,19 +70,18 @@ end
 
 --\ Parsing library \--
 local function IsGotoLabel(line)
-	-- Remove trailing comments first
 	local cleaned = line:gsub("%-%-.*$", "")  
-	-- check if only ::number:: blocks separated by commas
-	cleaned = cleaned:match("^%s*(.-)%s*$")  -- trim spaces
+
+	cleaned = cleaned:match("^%s*(.-)%s*$")
 	if cleaned == "" then return false end
 
-	-- Split by comma
 	for part in cleaned:gmatch("[^,]+") do
-		part = part:match("^%s*(.-)%s*$")  -- trim each piece
+		part = part:match("^%s*(.-)%s*$")
 		if not part:match("^::%d+::$") then
 			return false
 		end
 	end
+	
 	return true
 end
 
@@ -115,6 +114,32 @@ local function ParseFunctionHeader(Raw)
 	return nil
 end
 
+function ParseAssignment(comment)
+	local lhs, rhs = comment:match("^%s*(.-)%s*=%s*(.+)$")
+	if not lhs then return nil end
+	return lhs, rhs
+end
+
+function SplitAssignment(comment)
+	return comment:match("^%s*(.-)%s*=%s*(.+)$")
+end
+
+function ParseTableAccess(expr)
+	-- var.s
+	local base, key = expr:match("^(%w+)%.([%w_]+)$")
+	if base then
+		return base, key
+	end
+
+	-- var[...]
+	base, key = expr:match("^(%w+)%[(.-)%]$")
+	if base then
+		return base, key
+	end
+
+	return nil
+end
+
 function SafeMatch(str, pattern)
 	if not str then
 		return nil
@@ -142,38 +167,11 @@ function ParseInstruction(line)
 		return fh
 	end
 
-	local index  = SafeMatch(line, "^%s*%[(%d+)%]")
+	local instrIndex = SafeMatch(line, "^%s*%[(%d+)%]")
 	local opcode = SafeMatch(line, "%]%s*(%w+)")
 	local comment = SafeMatch(line, ";%s*(.+)$")
 
-	--[[if opcode == "RETURN" then
-		local returns = {}
-
-		if comment then
-			local ret = comment:match("^return%s+(.+)$")
-			if ret then
-				-- split by "->" exactly
-				for part in ret:gmatch("([^>]+)") do
-					part = part:match("^%s*(.-)%s*$")
-					-- skip empty or just whitespace
-					if part ~= "" then
-						table.insert(returns, part)
-					end
-				end
-			end
-		end
-
-		return {
-			isafunction = false,
-			isreturn = true,
-			index = index and tonumber(index) or nil,
-			opcode = opcode,
-			returns = returns,
-			_raw = line
-		}
-	end]] --TODO: fix return parsing
-	
-	local argument, result, callArgs, concatArgs
+	local argument, result, callArgs, concatArgs, tblIndex
 
 	if comment then
 		comment = comment:match("^%s*(.-)%s*$")
@@ -206,7 +204,33 @@ function ParseInstruction(line)
 			end
 
 		else
-			argument, result = comment:match("(%w+)%s*=%s*(.+)")
+			-- assignment-based parsing
+			local lhs, rhs = ParseAssignment(comment)
+			if lhs then
+				-- SETTABLE*
+				if opcode and opcode:match("^SETTABLE") then
+					local base, key = ParseTableAccess(lhs)
+					if base then
+						argument = base
+						tblIndex = key
+						result = rhs
+					end
+
+					-- GETTABLE*
+				elseif opcode and opcode:match("^GETTABLE") then
+					local base, key = ParseTableAccess(rhs)
+					if base then
+						argument = lhs
+						tblIndex = key
+						result = base
+					end
+
+				else
+					-- normal assignment
+					argument = lhs
+					result = rhs
+				end
+			end
 		end
 	end
 
@@ -214,10 +238,11 @@ function ParseInstruction(line)
 		isafunction = false,
 		isend = false,
 		islabel = false,
-		index = index and tonumber(index) or nil,
+		index = instrIndex and tonumber(instrIndex) or nil, -- instruction index
 		opcode = opcode,
 		argument = argument,
 		result = result,
+		tblIndex = tblIndex, -- << semantic table index
 		callArgs = callArgs,
 		concatArgs = concatArgs,
 		_raw = line
@@ -396,8 +421,8 @@ function Nemo:Decompile(Disassembly, Debug)
 	for Line, Data in pairs(Parsed) do
 		--upvalues support when
 		
-		if Data.isend then
-			AddToOutput("end") --handle function's end
+		if Data.isend --[[or Data.opcode == "FORNLOOP" or Data.opcode == "FORGLOOP"]] then --loops coming soon :D
+			AddToOutput("end") --handle function's or loop's end
 			
 			continue
 		end
@@ -413,8 +438,14 @@ function Nemo:Decompile(Disassembly, Debug)
 		end
 
 		--opcodes yeehaw
+		
+		if Data.opcode == "PREPVARARGS" or Data.opcode == "CAPTURE" or Data.opcode:find("FASTCALL") then
+			AddToOutput("-- ...")
+			
+			continue
+		end
 
-		if Data.opcode == "LOADK" or Data.opcode == "LOADN" or Data.opcode == "LOADB" or Data.opcode == "LOADNIL" or Data.opcode == "GETIMPORT" or Data.opcode == "NEWTABLE" then
+		if Data.opcode == "LOADK" or Data.opcode == "LOADN" or Data.opcode == "LOADB" or Data.opcode == "LOADNIL" or Data.opcode == "GETIMPORT" then
 			local Argument = Data.argument
 
 			local Result = Data.result
@@ -429,10 +460,6 @@ function Nemo:Decompile(Disassembly, Debug)
 		end
 		
 		if Data.opcode == "SETGLOBAL" then
-			print("!SETGLOBAL")
-			
-			print(Data)
-			
 			local Argument = Data.argument
 			local Result = Data.result
 			
@@ -450,10 +477,6 @@ function Nemo:Decompile(Disassembly, Debug)
 		end
 		
 		if Data.opcode == "GETGLOBAL" then
-			print("!GETGLOBAL")
-			
-			print(Data)
-			
 			local Argument = Data.argument
 			local Result = Data.result
 
@@ -554,7 +577,143 @@ function Nemo:Decompile(Disassembly, Debug)
 			
 			continue]] -- TODO: fix return
 
-			AddToOutput("return")
+			AddToOutput("-- Returns are bugged for now\nreturn")
+			
+			continue
+		end
+		
+		if Data.opcode == "NEWTABLE" or Data.opcode == "DUPTABLE" then
+			local Argument = Data.argument
+			local Result = Data.result
+			
+			VRL_:WriteRegister(Argument, "{}")
+
+			local VarName = VNH_:BindAndGetVariableName(Argument)
+
+			AddToOutput(FormatVariableAssign(VarName, "{}"))
+
+			continue
+		end
+		
+		if Data.opcode == "SETTABLEKS" then
+			local Argument = Data.argument
+			local Result = Data.result
+			local TableIndex = Data.tblIndex
+			
+			local TableVariable = VNH_:GetName(Argument)
+			local ResultVariable = VNH_:GetName(Result)
+			
+			AddToOutput(TableVariable..'["'..TableIndex..']"'.." = "..ResultVariable)
+			
+			continue
+		end
+		
+		if Data.opcode == "SETTABLEN" then
+			local Argument = Data.argument
+			local Result = Data.result
+			local TableIndex = Data.tblIndex
+
+			local TableVariable = VNH_:GetName(Argument)
+			local ResultVariable = VNH_:GetName(Result)
+
+			AddToOutput(TableVariable.."["..TableIndex.."]".." = "..ResultVariable)
+
+			continue
+		end
+		
+		if Data.opcode == "SETTABLE" then
+			local Argument = Data.argument
+			local Result = Data.result
+			local TableIndex = Data.tblIndex
+
+			local TableVariable = VNH_:GetName(Argument)
+			local ResultVariable = VNH_:GetName(Result)
+			local IndexVariable = VNH_:GetName(TableIndex)
+
+			AddToOutput(TableVariable.."["..IndexVariable.."]".." = "..ResultVariable)
+
+			continue
+		end
+		
+		if Data.opcode == "GETTABLEKS" then
+			local Argument = Data.argument
+			local Result = Data.result
+			local TableIndex = Data.tblIndex
+
+			local ResultVariable = VNH_:GetName(Result)
+			
+			local VariableName = VNH_:BindAndGetVariableName(Argument)
+			
+			AddToOutput(FormatVariableAssign(VariableName, ResultVariable..'["'..TableIndex..'"]'))
+			
+			VRL_:WriteRegister(Argument, ResultVariable.."["..TableIndex.."]")
+			
+			continue
+		end
+		
+		if Data.opcode == "'GETTABLEN" then
+			local Argument = Data.argument
+			local Result = Data.result
+			local TableIndex = Data.tblIndex
+
+			local ResultVariable = VNH_:GetName(Result)
+
+			local VariableName = VNH_:BindAndGetVariableName(Argument)
+
+			AddToOutput(FormatVariableAssign(VariableName, ResultVariable.."["..TableIndex.."]"))
+			
+			VRL_:WriteRegister(Argument, ResultVariable.."["..TableIndex.."]")
+			
+			continue
+		end
+		
+		if Data.opcode == "GETTABLE" then
+			local Argument = Data.argument
+			local Result = Data.result
+			local TableIndex = Data.tblIndex
+
+			local ResultVariable = VNH_:GetName(Result)
+			local IndexVariable = VNH_:GetName(TableIndex)
+
+			local VariableName = VNH_:BindAndGetVariableName(Argument)
+
+			AddToOutput(FormatVariableAssign(VariableName, ResultVariable.."["..IndexVariable.."]"))
+			
+			VRL_:WriteRegister(Argument, ResultVariable.."["..IndexVariable.."]")
+			
+			continue
+		end
+		
+		if Data.opcode == "GETVARARGS" then
+			local VariableName = VNH_:BindAndGetVariableName(Data.argument)
+			
+			AddToOutput(FormatVariableAssign(VariableName, "..."))
+			
+			continue
+		end
+		
+		if Data.opcode:find("FOR") then
+			AddToOutput("-- Loop support soon")
+
+			continue
+		end
+		
+		if Data.opcode:find("JUMP") then
+			AddToOutput("-- Jumps support soon")
+
+			continue
+		end
+		
+		if Data.opcode == "NOT" or Data.opcode == "OR" or Data.opcode == "AND" then
+			AddToOutput("-- Logicals support soon")
+
+			continue
+		end
+		
+		if Data.opcode == "ANDK" or Data.opcode == "ORK" then
+			AddToOutput("-- Special logicals support sometime")
+			
+			continue
 		end
 		
 		if Data.opcode then
