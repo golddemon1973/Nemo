@@ -393,29 +393,22 @@ end
 Decompiled:
 
 -- Decompiled with Nemo BETA
-local v1 = "hello world"
-local v1 = nil
-local v1 = true
-local v1 = false
-local v1 = 1
-local v1 = 9000000000
-local function func1 ()
+function func1 ()
 end
 local v1 = func1
-local v2 = newproxy
-local function stub ()
-local v1 = v1()
+function stub ()
+	local v1 = v1()
 end
 local v3 = stub
 local v4 = v3
 local v4 = v4()
-local function upv ()
-local function foo ()
-local v1 = foo
-local v2 = FALSE_GLOBAL
-local v2 = v1
-local v2 = v2()
-local v3 = v3()
+function upv ()
+	local function foo ()
+	end
+	local v1 = foo
+	local v2 = v1
+	local v2 = v2()
+	local v3 = v3()
 end
 local v5 = upv
 local v6 = v5
@@ -424,11 +417,12 @@ local v5 = v6
 local v7 = v5
 local v8 = v5
 local v8 = v8()
--- error:ReplicatedStorage.Nemo:409: invalid argument #2 to 'format' (string expected, got nil) raw: [35] #27 [0x00000B15]        CALL 11, 0, 0                     ; var11->(top) = var11(var12->(top))
+-- error:ReplicatedStorage.Nemo:417: invalid argument #2 to 'format' (string expected, got nil) raw: [35] #27 [0x00000B15]        CALL 11, 0, 0                     ; var11->(top) = var11(var12->(top))
 local v7 = v7()
-local function dup ()
-local function func2 ()
-local v1 = func2
+function dup ()
+	local function func2 ()
+	end
+	local v1 = func2
 end
 local v9 = dup
 local v10 = v9
@@ -443,50 +437,19 @@ local v13 = v11
 local v14 = v8
 local v15 = v12
 local v7 = v10
-local v14 = 1
-local v10 = 35
-local v13 = 1
 local v15 = v14
-local v16 = nil
-local v16 = "hello "
 local v17 = v16
-local v18 = "world"
-local v17 = false -- goto [116]
-local v17 = true
 local v19 = v15
-local v20 = math.floor
 local v20 = v20(v19)
 local v21 = v15
 local v22 = v15
-local v19 = math.floor
 local v19 = v19(v21)
 local v22 = v15
-local v23 = 1
-local v21 = math.floor
 local v21 = v21(v22)
-local v24 = 1
-local v25 = 2
 local v23 = v15
-local v22 = math.floor
 local v22 = v22(v23)
 local v24 = v15
-local v25 = 1
-local v26 = 2
-local v27 = 3
-local v28 = 4
-local v29 = 5
-local v23 = math.floor
 local v23 = v23(v24)
-local v13 = nil
-local v14 = nil
-local v10 = ipairs
 local v10 = v10(v13)
-local v10 = next
-local v14 = nil
-local v14 = 1
-local v10 = 35
-local v13 = 1
 local v15 = v14
-local v10 = print
-local v13 = "PASSED"
 local v10 = v10(v13)
