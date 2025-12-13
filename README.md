@@ -49,8 +49,10 @@ Repeats: ❌ <br />
 Loops: 🛠️ <br />
 
 
-New Table: 🛠️ <br />
-Set Table Key: 🛠️ <br />
+New Table: ✔️ <br />
+Set Table Key: ✔️ <br />
 
+Logical Sets: 🛠️
+Special Logical Sets: 🛠️
 
-Others: 🛠️ <br />
+Others:❓ <br />
