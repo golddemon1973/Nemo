@@ -423,7 +423,7 @@ function Nemo:Decompile(Disassembly, Debug)
 	for Line, Data in pairs(Parsed) do
 		--upvalues support when
 		
-		if Data.isend --[[or Data.opcode == "FORNLOOP" or Data.opcode == "FORGLOOP"]] then --loops coming soon :D
+		if Data.isend --[[or ProcessedOpcode == "FORNLOOP" or ProcessedOpcode == "FORGLOOP"]] then --loops coming soon :D
 			AddToOutput("end") --handle function's or loop's end
 			
 			continue
@@ -441,13 +441,15 @@ function Nemo:Decompile(Disassembly, Debug)
 
 		--opcodes yeehaw
 		
-		if Data.opcode == "PREPVARARGS" or Data.opcode == "CAPTURE" or Data.opcode:find("FASTCALL") then
+		local ProcessedOpcode = string.gsub(Data.opcode, " ", "") --fix for spacing causing some opcodes to fail
+		
+		if ProcessedOpcode == "PREPVARARGS" or ProcessedOpcode == "CAPTURE" or ProcessedOpcode:find("FASTCALL") then
 			AddToOutput("-- ...")
 			
 			continue
 		end
 
-		if Data.opcode == "LOADK" or Data.opcode == "LOADN" or Data.opcode == "LOADB" or Data.opcode == "LOADNIL" or Data.opcode == "GETIMPORT" then
+		if ProcessedOpcode == "LOADK" or ProcessedOpcode == "LOADN" or ProcessedOpcode == "LOADB" or ProcessedOpcode == "LOADNIL" or ProcessedOpcode == "GETIMPORT" then
 			local Argument = Data.argument
 
 			local Result = Data.result
@@ -461,7 +463,7 @@ function Nemo:Decompile(Disassembly, Debug)
 			continue
 		end
 		
-		if Data.opcode == "SETGLOBAL" then
+		if ProcessedOpcode == "SETGLOBAL" then
 			local Argument = Data.argument
 			local Result = Data.result
 			
@@ -478,7 +480,7 @@ function Nemo:Decompile(Disassembly, Debug)
 			continue
 		end
 		
-		if Data.opcode == "GETGLOBAL" then
+		if ProcessedOpcode == "GETGLOBAL" then
 			local Argument = Data.argument
 			local Result = Data.result
 
@@ -491,7 +493,7 @@ function Nemo:Decompile(Disassembly, Debug)
 			continue
 		end
 
-		if Data.opcode == "DUPCLOSURE" or Data.opcode == "NEWCLOSURE" then
+		if ProcessedOpcode == "DUPCLOSURE" or ProcessedOpcode == "NEWCLOSURE" then
 			local Argument = Data.argument
 			local Result = Data.result
 
@@ -504,7 +506,7 @@ function Nemo:Decompile(Disassembly, Debug)
 			continue
 		end
 
-		if Data.opcode == "MOVE" then
+		if ProcessedOpcode == "MOVE" then
 			local Argument = Data.argument
 			local Result = Data.result
 
@@ -519,7 +521,7 @@ function Nemo:Decompile(Disassembly, Debug)
 			continue
 		end
 
-		if Data.opcode == "CALL" then
+		if ProcessedOpcode == "CALL" then
 			local sccess, err = pcall(function()
 				local Caller = Data.argument
 				local UsedCaller = VRL_:GetRegisterValue(Caller)
@@ -562,7 +564,7 @@ function Nemo:Decompile(Disassembly, Debug)
 			continue
 		end
 		
-		if Data.opcode == "RETURN" then
+		if ProcessedOpcode == "RETURN" then
 			--[[print("!RETURN")
 			
 			print(Data)
@@ -584,7 +586,7 @@ function Nemo:Decompile(Disassembly, Debug)
 			continue
 		end
 		
-		if Data.opcode == "NEWTABLE" or Data.opcode == "DUPTABLE" then
+		if ProcessedOpcode == "NEWTABLE" or ProcessedOpcode == "DUPTABLE" then
 			local Argument = Data.argument
 			local Result = Data.result
 			
@@ -597,7 +599,7 @@ function Nemo:Decompile(Disassembly, Debug)
 			continue
 		end
 		
-		if Data.opcode == "SETTABLEKS" then
+		if ProcessedOpcode == "SETTABLEKS" then
 			local Argument = Data.argument
 			local Result = Data.result
 			local TableIndex = Data.tblIndex
@@ -605,12 +607,12 @@ function Nemo:Decompile(Disassembly, Debug)
 			local TableVariable = VNH_:GetName(Argument)
 			local ResultVariable = VNH_:GetName(Result)
 			
-			AddToOutput(TableVariable..'["'..TableIndex..']"'.." = "..ResultVariable)
+			AddToOutput(TableVariable..'["'..TableIndex..'"]'.." = "..ResultVariable)
 			
 			continue
 		end
 		
-		if Data.opcode == "SETTABLEN" then
+		if ProcessedOpcode == "SETTABLEN" then
 			local Argument = Data.argument
 			local Result = Data.result
 			local TableIndex = Data.tblIndex
@@ -623,7 +625,7 @@ function Nemo:Decompile(Disassembly, Debug)
 			continue
 		end
 		
-		if Data.opcode == "SETTABLE" then
+		if ProcessedOpcode == "SETTABLE" then
 			local Argument = Data.argument
 			local Result = Data.result
 			local TableIndex = Data.tblIndex
@@ -637,7 +639,7 @@ function Nemo:Decompile(Disassembly, Debug)
 			continue
 		end
 		
-		if Data.opcode == "GETTABLEKS" then
+		if ProcessedOpcode == "GETTABLEKS" then
 			local Argument = Data.argument
 			local Result = Data.result
 			local TableIndex = Data.tblIndex
@@ -653,7 +655,9 @@ function Nemo:Decompile(Disassembly, Debug)
 			continue
 		end
 		
-		if Data.opcode == "'GETTABLEN" then
+		if ProcessedOpcode == "'GETTABLEN" then
+			print("yo")
+			
 			local Argument = Data.argument
 			local Result = Data.result
 			local TableIndex = Data.tblIndex
@@ -669,7 +673,7 @@ function Nemo:Decompile(Disassembly, Debug)
 			continue
 		end
 		
-		if Data.opcode == "GETTABLE" then
+		if ProcessedOpcode == "GETTABLE" then
 			local Argument = Data.argument
 			local Result = Data.result
 			local TableIndex = Data.tblIndex
@@ -686,7 +690,7 @@ function Nemo:Decompile(Disassembly, Debug)
 			continue
 		end
 		
-		if Data.opcode == "GETVARARGS" then
+		if ProcessedOpcode == "GETVARARGS" then
 			local VariableName = VNH_:BindAndGetVariableName(Data.argument)
 			
 			AddToOutput(FormatVariableAssign(VariableName, "..."))
@@ -694,32 +698,34 @@ function Nemo:Decompile(Disassembly, Debug)
 			continue
 		end
 		
-		if Data.opcode:find("FOR") then
+		if ProcessedOpcode:find("FOR") then
 			AddToOutput("-- Loop support soon")
 
 			continue
 		end
 		
-		if Data.opcode:find("JUMP") then
+		if ProcessedOpcode:find("JUMP") then
 			AddToOutput("-- Jumps support soon")
 
 			continue
 		end
 		
-		if Data.opcode == "NOT" or Data.opcode == "OR" or Data.opcode == "AND" then
+		if ProcessedOpcode == "NOT" or ProcessedOpcode == "OR" or ProcessedOpcode == "AND" then
 			AddToOutput("-- Logicals support soon")
 
 			continue
 		end
 		
-		if Data.opcode == "ANDK" or Data.opcode == "ORK" then
+		if ProcessedOpcode == "ANDK" or ProcessedOpcode == "ORK" then
 			AddToOutput("-- Special logicals support sometime")
 			
 			continue
 		end
 		
-		if Data.opcode then
-			AddToOutput(("-- Unknown instruction: %s"):format(Data.opcode))
+		if ProcessedOpcode then
+			print(ProcessedOpcode)
+			
+			AddToOutput(("-- Unknown instruction: %s"):format(ProcessedOpcode))
 			
 			continue
 		else
@@ -731,7 +737,7 @@ function Nemo:Decompile(Disassembly, Debug)
 	
 	local EndTick = tick()
 
-	StringOutput = StringOutput..("Decompiling took %.3f seconds."):format(EndTick - StartTick)
+	StringOutput = StringOutput..("-- Decompiling took %.3f seconds.\n"):format(EndTick - StartTick)
 	StringOutput = StringOutput..table.concat(Output, "\n")
 
 	if Debug then
