@@ -146,7 +146,7 @@ function ParseInstruction(line)
 	local opcode = SafeMatch(line, "%]%s*(%w+)")
 	local comment = SafeMatch(line, ";%s*(.+)$")
 
-	if opcode == "RETURN" then
+	--[[if opcode == "RETURN" then
 		local returns = {}
 
 		if comment then
@@ -171,7 +171,8 @@ function ParseInstruction(line)
 			returns = returns,
 			_raw = line
 		}
-	end
+	end]] --TODO: fix return parsing
+	
 	local argument, result, callArgs, concatArgs
 
 	if comment then
@@ -537,7 +538,7 @@ function Nemo:Decompile(Disassembly, Debug)
 		end
 		
 		if Data.opcode == "RETURN" then
-			print("!RETURN")
+			--[[print("!RETURN")
 			
 			print(Data)
 			
@@ -551,7 +552,9 @@ function Nemo:Decompile(Disassembly, Debug)
 			
 			AddToOutput(("return %s"):format(table.concat(ReturnArgs, ", ")))
 			
-			continue
+			continue]] -- TODO: fix return
+
+			AddToOutput("return")
 		end
 		
 		if Data.opcode then
