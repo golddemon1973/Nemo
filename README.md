@@ -35,22 +35,22 @@ Thanks to everyone that will, or has contributed to this project. Thank you.
 🛠️ -> W.I.P
 ❌ -> Not included
 
-Functions: ✔️
-Upvalues: ❌
+Functions: ✔️ <br />
+Upvalues: ❌ <br />
 
 
-Variables: ✔️
-Globals: ✔️
+Variables: ✔️ <br />
+Globals: ✔️ <br />
 
 
-Ifs: 🛠️
-Whiles: ❌
-Repeats: ❌
-Loops: 🛠️
+Ifs: 🛠️ <br />
+Whiles: ❌ <br />
+Repeats: ❌ <br />
+Loops: 🛠️ <br />
 
 
-New Table: 🛠️
-Set Table Key: 🛠️
+New Table: 🛠️ <br />
+Set Table Key: 🛠️ <br />
 
 
-Others: 🛠️
+Others: 🛠️ <br />
