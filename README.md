@@ -28,3 +28,25 @@ Use this script to redefine the decompile function:
 > golddemon1973 - Creator
 
 Thanks to everyone that will, or has contributed to this project. Thank you.
+
+# Features
+
+✔️ -> Included
+🛠️ -> W.I.P
+❌ -> Not included
+
+Functions: ✔️
+Upvalues: ❌
+
+Variables: ✔️
+Globals: ✔️
+
+Ifs: 🛠️
+Whiles: ❌
+Repeats: ❌
+Loops: 🛠️
+
+New Table: 🛠️
+Set Table Key: 🛠️
+
+Others: 🛠️
