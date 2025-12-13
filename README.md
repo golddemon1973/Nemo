@@ -38,15 +38,19 @@ Thanks to everyone that will, or has contributed to this project. Thank you.
 Functions: ✔️
 Upvalues: ❌
 
+
 Variables: ✔️
 Globals: ✔️
+
 
 Ifs: 🛠️
 Whiles: ❌
 Repeats: ❌
 Loops: 🛠️
 
+
 New Table: 🛠️
 Set Table Key: 🛠️
+
 
 Others: 🛠️
