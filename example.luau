@@ -392,8 +392,9 @@ end
 
 Decompiled:
 
--- Decompiled with Nemo BETA
--- Unknown instruction: PREPVARARGS
+-- Decompiled with Nemo v0-2-0
+-- Decompiling took 0.012 seconds.
+-- ...
 local v1 = "hello world"
 local v1 = nil
 local v1 = true
@@ -405,149 +406,130 @@ end
 local v1 = func1
 local v2 = newproxy
 FUNC_GLOBAL = v2
--- Unknown instruction: NEWTABLE
+local v2 = {}
 function stub ()
-	-- Unknown instruction: PREPVARARGS
-	local v1 = FUNC_GLOBAL
-	local v1 = v1()
-	-- Unknown instruction: GETUPVAL
-	-- Unknown instruction: SETTABLEKS
-	-- Unknown instruction: SETTABLEN
-	-- Unknown instruction: SETTABLE
-	-- Unknown instruction: GETTABLE
-	-- Unknown instruction: SETUPVAL
-	-- Unknown instruction: GETTABLEKS
-	-- Unknown instruction: GETTABLEN
-	-- Unknown instruction: GETTABLE
-	return
+-- ...
+local v1 = FUNC_GLOBAL
+local v1 = v1()
+-- Unknown instruction: GETUPVAL
+v2["s"] = v1
+v2[0] = v1
+v2[v1] = v1
+local v3 = v2[v1]
+-- Unknown instruction: SETUPVAL
+local v3 = v2["s"]
+-- Unknown instruction: GETTABLEN
+local v4 = v2[v1]
+-- Returns are bugged for now
+return
 end
 local v3 = stub
--- Unknown instruction: CAPTURE
--- Unknown instruction: CAPTURE
-local v4 = v3
-local v4 = v4()
+-- ...
+-- ...
+local v5 = v3
+local v5 = v5()
 function upv ()
-	local function foo ()
-		-- Unknown instruction: GETUPVAL
-		return
-	end
-	local v1 = foo
-	-- Unknown instruction: CAPTURE
-	-- ABSOLUTE Unknown! Raw: ::5::
-	local v2 = FALSE_GLOBAL
-	-- Unknown instruction: JUMPIFNOT
-	-- Unknown instruction: JUMPBACK
-	-- ABSOLUTE Unknown! Raw: ::4::
-	local v2 = v1
-	local v2 = v2()
-	local v3 = FUNC_GLOBAL
-	local v3 = v3()
-	return
+local function foo ()
+-- Unknown instruction: GETUPVAL
+-- Returns are bugged for now
+return
 end
-local v5 = upv
--- Unknown instruction: CAPTURE
--- Unknown instruction: DUPTABLE
--- Unknown instruction: SETTABLEKS
+local v1 = foo
+-- ...
+local v2 = FALSE_GLOBAL
+-- Jumps support soon
+-- Jumps support soon
+local v2 = v1
+local v2 = v2()
+local v3 = FUNC_GLOBAL
+local v3 = v3()
+-- Returns are bugged for now
+return
+end
+local v6 = upv
+-- ...
+local v7 = {}
+v7["val"] = v6
 -- Unknown instruction: LENGTH
-local v6 = v5
-local v6 = v6()
-local v5 = v6
--- Unknown instruction: NEWTABLE
-local v7 = v5
-local v8 = v5
+local v8 = v6
 local v8 = v8()
+local v6 = v8
+local v8 = {}
+local v9 = v6
+local v10 = v6
+local v10 = v10()
 -- Unknown instruction: NAMECALL
--- error:ReplicatedStorage.Nemo:582: invalid argument #2 to 'format' (string expected, got nil) raw: [35] #27 [0x00000B15]        CALL 11, 0, 0                     ; var11->(top) = var11(var12->(top))
-local v7 = v7()
+-- error:ReplicatedStorage.Nemo:548: invalid argument #2 to 'format' (string expected, got nil) raw: [35] #27 [0x00000B15]        CALL 11, 0, 0                     ; var11->(top) = var11(var12->(top))
+local v9 = v9()
 -- Unknown instruction: SETLIST
--- Unknown instruction: NEWTABLE
+local v9 = {}
 function dup ()
-	local function func2 ()
-	end
-	local v1 = func2
-	return
+local function func2 ()
 end
-local v9 = dup
-local v10 = v9
-local v10 = v10()
-local v11 = v10
-local v10 = v9
-local v10 = v10()
-local v8 = v10
-local v12 = v9
+local v1 = func2
+-- Returns are bugged for now
+return
+end
+local v11 = dup
+local v12 = v11
 local v12 = v12()
--- Unknown instruction: NEWTABLE
-local v13 = v11
-local v14 = v8
-local v15 = v12
+local v13 = v12
+local v12 = v11
+local v12 = v12()
+local v10 = v12
+local v14 = v11
+local v14 = v14()
+local v12 = {}
+local v15 = v13
+local v16 = v10
+local v17 = v14
 -- Unknown instruction: SETLIST
-local v7 = v10
-local v14 = 1
-local v10 = 35
-local v13 = 1
--- Unknown instruction: FORNPREP
--- ABSOLUTE Unknown! Raw: ::174::
-local v15 = v14
--- Unknown instruction: JUMPIFNOT
--- Unknown instruction: JUMP
--- ABSOLUTE Unknown! Raw: ::63::, ::64::
--- Unknown instruction: JUMPIF
--- Unknown instruction: JUMP
--- ABSOLUTE Unknown! Raw: ::65::, ::66::
--- Unknown instruction: JUMPIFNOTEQ
--- Unknown instruction: JUMP
--- ABSOLUTE Unknown! Raw: ::67::, ::69::
--- Unknown instruction: JUMPIFEQ
--- Unknown instruction: JUMP
--- ABSOLUTE Unknown! Raw: ::70::, ::72::
-local v16 = nil
--- Unknown instruction: JUMPIFNOTLE
-local v16 = "hello "
--- Unknown instruction: JUMP
--- ABSOLUTE Unknown! Raw: ::74::, ::77::
--- Unknown instruction: JUMPIFNOTLT
--- Unknown instruction: JUMP
--- ABSOLUTE Unknown! Raw: ::78::, ::80::
--- Unknown instruction: JUMPIFLE
--- Unknown instruction: JUMP
--- ABSOLUTE Unknown! Raw: ::81::, ::83::
--- Unknown instruction: JUMPIFLT
--- Unknown instruction: JUMP
--- ABSOLUTE Unknown! Raw: ::84::, ::86::
--- Unknown instruction: JUMPXEQKN
--- ABSOLUTE Unknown! Raw: ::87::
--- Unknown instruction: JUMPXEQKS
--- ABSOLUTE Unknown! Raw: ::89::
--- Unknown instruction: JUMPXEQKB
--- ABSOLUTE Unknown! Raw: ::91::
--- Unknown instruction: JUMPXEQKB
--- ABSOLUTE Unknown! Raw: ::93::
--- Unknown instruction: JUMPXEQKNIL
--- ABSOLUTE Unknown! Raw: ::95::
--- Unknown instruction: JUMPXEQKN
--- ABSOLUTE Unknown! Raw: ::97::
--- Unknown instruction: JUMPXEQKS
--- ABSOLUTE Unknown! Raw: ::99::
--- Unknown instruction: JUMPXEQKB
--- ABSOLUTE Unknown! Raw: ::101::
--- Unknown instruction: JUMPXEQKB
--- ABSOLUTE Unknown! Raw: ::103::
--- Unknown instruction: JUMPXEQKNIL
--- ABSOLUTE Unknown! Raw: ::105::
--- Unknown instruction: NOT
--- Unknown instruction: MINUS
+local v9 = v12
+local v16 = 1
+local v12 = 35
+local v15 = 1
+-- Loop support soon
 local v17 = v16
-local v18 = "world"
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+local v18 = nil
+-- Jumps support soon
+local v18 = "hello "
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Jumps support soon
+-- Logicals support soon
+-- Unknown instruction: MINUS
+local v19 = v18
+local v20 = "world"
 -- Unknown instruction: CONCAT
--- Unknown instruction: JUMPIFEQ
-local v17 = false -- goto [116]
--- ABSOLUTE Unknown! Raw: ::112::
-local v17 = true
--- ABSOLUTE Unknown! Raw: ::114::
--- Unknown instruction: ANDK
--- Unknown instruction: ORK
--- Unknown instruction: AND
--- Unknown instruction: OR
+-- Jumps support soon
+local v19 = false -- goto [116]
+local v19 = true
+-- Special logicals support sometime
+-- Special logicals support sometime
+-- Logicals support soon
+-- Logicals support soon
 -- Unknown instruction: ADDK
 -- Unknown instruction: ADD
 -- Unknown instruction: SUBK
@@ -564,75 +546,65 @@ local v17 = true
 -- Unknown instruction: POW
 -- Unknown instruction: MODK
 -- Unknown instruction: MOD
--- Unknown instruction: GETVARARGS
--- Unknown instruction: FASTCALL1
-local v19 = v15
-local v20 = math.floor
-local v20 = v20(v19)
--- ABSOLUTE Unknown! Raw: ::137::
--- Unknown instruction: FASTCALL2
-local v21 = v15
-local v22 = v15
-local v19 = math.floor
-local v19 = v19(v21)
--- ABSOLUTE Unknown! Raw: ::143::
--- Unknown instruction: FASTCALL2K
-local v22 = v15
-local v23 = 1
-local v21 = math.floor
-local v21 = v21(v22)
--- ABSOLUTE Unknown! Raw: ::150::
-local v24 = 1
-local v25 = 2
--- Unknown instruction: FASTCALL3
-local v23 = v15
-local v22 = math.floor
-local v22 = v22(v23)
--- ABSOLUTE Unknown! Raw: ::159::
-local v24 = v15
-local v25 = 1
-local v26 = 2
-local v27 = 3
-local v28 = 4
-local v29 = 5
--- Unknown instruction: FASTCALL
+local v21 = ...
+-- ...
+local v22 = v17
 local v23 = math.floor
-local v23 = v23(v24)
--- ABSOLUTE Unknown! Raw: ::170::
--- Unknown instruction: FORNLOOP
--- ABSOLUTE Unknown! Raw: ::61::
--- Unknown instruction: NEWTABLE
-local v13 = nil
-local v14 = nil
--- Unknown instruction: FORGPREP
--- ABSOLUTE Unknown! Raw: ::179::, ::180::
--- Unknown instruction: FORGLOOP
-local v10 = ipairs
--- Unknown instruction: NEWTABLE
-local v10 = v10(v13)
--- Unknown instruction: FORGPREP
--- ABSOLUTE Unknown! Raw: ::187::, ::188::
--- Unknown instruction: FORGLOOP
-local v10 = next
--- Unknown instruction: NEWTABLE
-local v14 = nil
--- Unknown instruction: FORGPREP
--- ABSOLUTE Unknown! Raw: ::195::, ::196::
--- Unknown instruction: FORGLOOP
-local v14 = 1
-local v10 = 35
-local v13 = 1
--- Unknown instruction: FORNPREP
--- ABSOLUTE Unknown! Raw: ::207::
-local v15 = v14
--- Unknown instruction: JUMPIFNOT
+local v23 = v23(v22)
+-- ...
+local v24 = v17
+local v25 = v17
+local v22 = math.floor
+local v22 = v22(v24)
+-- ...
+local v25 = v17
+local v26 = 1
+local v24 = math.floor
+local v24 = v24(v25)
+local v27 = 1
+local v28 = 2
+-- ...
+local v26 = v17
+local v25 = math.floor
+local v25 = v25(v26)
+local v27 = v17
+local v28 = 1
+local v29 = 2
+local v30 = 3
+local v31 = 4
+local v32 = 5
+-- ...
+local v26 = math.floor
+local v26 = v26(v27)
+-- Loop support soon
+local v12 = {}
+local v15 = nil
+local v16 = nil
+-- Loop support soon
+-- Loop support soon
+local v12 = ipairs
+local v15 = {}
+local v12 = v12(v15)
+-- Loop support soon
+-- Loop support soon
+local v12 = next
+local v15 = {}
+local v16 = nil
+-- Loop support soon
+-- Loop support soon
+local v16 = 1
+local v12 = 35
+local v15 = 1
+-- Loop support soon
+local v17 = v16
+-- Jumps support soon
 -- Unknown instruction: MODK
--- Unknown instruction: JUMP
--- Unknown instruction: JUMP
--- Unknown instruction: FORNLOOP
--- ABSOLUTE Unknown! Raw: ::201::, ::203::, ::205::, ::206::
-local v10 = print
-local v13 = "PASSED"
-v10(v13)
+-- Jumps support soon
+-- Jumps support soon
+-- Loop support soon
+local v12 = print
+local v15 = "PASSED"
+v12(v15)
 -- Unknown instruction: CLOSEUPVALS
+-- Returns are bugged for now
 return
