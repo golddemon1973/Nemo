@@ -404,6 +404,8 @@ local LIMITED_ARGS = {
 local Nemo = {}
 
 function Nemo:Decompile(Disassembly, Debug)
+	local StartTick = tick()
+	
 	local VRL_ = VRL.new()
 	local VNH_ = VNH.new()
 
@@ -412,7 +414,7 @@ function Nemo:Decompile(Disassembly, Debug)
 	print(Parsed)
 
 	local Output = {}
-	local StringOutput = "-- Decompiled with Nemo BETA\n"
+	local StringOutput = "-- Decompiled with Nemo v0-2-0\n"
 
 	local function AddToOutput (String:string)
 		table.insert(Output, String)
@@ -726,7 +728,10 @@ function Nemo:Decompile(Disassembly, Debug)
 			continue
 		end
 	end
+	
+	local EndTick = tick()
 
+	StringOutput = StringOutput..("Decompiling took %.3f seconds."):format(EndTick - StartTick)
 	StringOutput = StringOutput..table.concat(Output, "\n")
 
 	if Debug then
