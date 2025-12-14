@@ -11,7 +11,7 @@ Nemo is a small project I wanted to work on to provide a good, free, and love-ma
 Use this script to redefine the decompile function:
 
 ```lua
-    assert(disassemble, "Your exploit does not support Nemo")
+  assert(disassemble, "Your exploit does not support Nemo")
   assert(getscriptbytecode, "Your exploit does not support Nemo")
   assert(loadstring, "Your exploit does not support Nemo")
   
@@ -52,7 +52,7 @@ Loops: 🛠️ <br />
 New Table: ✔️ <br />
 Set Table Key: ✔️ <br />
 
-Logical Sets: 🛠️
-Special Logical Sets: 🛠️
+Logical Sets: 🛠️ <br />
+Special Logical Sets: 🛠️ <br />
 
 Others:❓ <br />
