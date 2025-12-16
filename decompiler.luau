@@ -97,6 +97,13 @@ local ARITHS = {
 
 local NO_RETURNS = {
 	["print"] = true,
+	["warn"] = true,
+	["error"] = true
+	["assert"] = true
+
+	["table.clear"] = true
+
+	["task.cancel"] = true
 }
 
 local LIMITED_ARGS = {
@@ -417,7 +424,7 @@ function ParseTableAccess(expr)
 	return nil
 end
 
-local function ParseLogical(opcode, comment)
+function ParseLogical(opcode, comment)
 	local dest, expr = comment:match("^(%w+)%s*=%s*(.+)$")
 
 	if not dest then return nil end
@@ -681,6 +688,10 @@ function Nemo:Decompile(Disassembly, Debug)
 
 	for Line, Data in pairs(Parsed) do
 		--upvalues support when
+
+		if not Data.opcode or Data._raw:find("--") then
+			continue
+		end
 
 		if Data.isend --[[or ProcessedOpcode == "FORNLOOP" or ProcessedOpcode == "FORGLOOP"]] then --loops coming soon :D
 			AddToOutput("end") --handle function's or loop's end
@@ -1287,17 +1298,7 @@ function Nemo:Decompile(Disassembly, Debug)
 			end
 		end
 
-		if ProcessedOpcode then
-			print(ProcessedOpcode)
-
-			AddToOutput(("-- Unknown instruction: %s"):format(ProcessedOpcode))
-
-			continue
-		else
-			AddToOutput(("-- ABSOLUTE Unknown! Raw: %s"):format(Data._raw))
-
-			continue
-		end
+		print("-- "..ProcessedOpcode.."?")
 	end
 
 	local EndTick = tick()
