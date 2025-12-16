@@ -668,7 +668,7 @@ function Nemo:Decompile(Disassembly, Debug)
 	print(Parsed)
 
 	local Output = {}
-	local StringOutput = "-- Decompiled with Nemo v0-2-0\n"
+	local StringOutput = "-- Decompiled with Nemo v0.3.1\n"
 
 	local function AddToOutput (String:string, Opcode:string)
 		if Opcode then
