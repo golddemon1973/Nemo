@@ -98,12 +98,12 @@ local ARITHS = {
 local NO_RETURNS = {
 	["print"] = true,
 	["warn"] = true,
-	["error"] = true
-	["assert"] = true
+	["error"] = true,
+	["assert"] = true,
 
-	["table.clear"] = true
+	["table.clear"] = true,
 
-	["task.cancel"] = true
+	["task.cancel"] = true,
 }
 
 local LIMITED_ARGS = {
