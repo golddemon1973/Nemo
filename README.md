@@ -52,7 +52,7 @@ Loops: 🛠️ <br />
 New Table: ✔️ <br />
 Set Table Key: ✔️ <br />
 
-Logical Sets: 🛠️ <br />
-Special Logical Sets: 🛠️ <br />
+Logical Sets: ✔️ <br />
+Special Logical Sets: ✔️ <br />
 
 Others:❓ <br />
