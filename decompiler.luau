@@ -633,15 +633,27 @@ end
 --\ General helpers \--
 
 function FormatVariableAssign(Name, Value)
-	return ("local %s = %s"):format(Name, Value)
+	if Name and Value then
+		return ("local %s = %s"):format(Name, Value)
+	else
+		return ("-- Failed to process variable assign with name %s and value %s"):format(Name or "null", Value or "null")
+	end
 end
 
 function FormatGlobalAssign(Name, Value)
-	return ("%s = %s"):format(Name, Value)
+	if Name and Value then
+		return ("%s = %s"):format(Name, Value)
+	else
+		return ("-- Failed to process variable assign with name %s and value %s"):format(Name or "null", Value or "null")
+	end
 end
 
 function FormatArithAssign(Operator, Name, Value)
-	return ("%s %s %s"):format(Name, Operator, Value)
+	if Operator and Name and Value then
+		return ("%s %s %s"):format(Name, Operator, Value)
+	else
+		return ("-- Failed to process variable assign with name %s, operator %s and value %s"):format(Name or "null", Operator or "null", Value or "null")
+	end
 end
 
 function IsUntreatedVar(value)
@@ -689,7 +701,7 @@ function Nemo:Decompile(Disassembly, Debug)
 	for Line, Data in pairs(Parsed) do
 		--upvalues support when
 
-		if not Data.opcode or Data._raw:find("--") then
+		if not Data.opcode then
 			continue
 		end
 
